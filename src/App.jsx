@@ -3,11 +3,13 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase.js';
 import { useRecipes } from './lib/recipes.js';
+import { useLogs } from './lib/logs.js';
 import Login from './components/Login.jsx';
 import RecipeList from './components/RecipeList.jsx';
 import RecipeDetail from './components/RecipeDetail.jsx';
 import RecipeEditor from './components/RecipeEditor.jsx';
 import CookMode from './components/CookMode.jsx';
+import CalendarView from './components/CalendarView.jsx';
 
 export default function App() {
   const [user, setUser] = useState(undefined);
@@ -21,7 +23,8 @@ export default function App() {
 
 function SignedIn({ uid }) {
   const { recipes, loading, error } = useRecipes(uid);
-  const props = { uid, recipes, loading };
+  const { logs } = useLogs(uid);
+  const props = { uid, recipes, loading, logs };
 
   if (error) {
     return (
@@ -38,6 +41,7 @@ function SignedIn({ uid }) {
       <Route path="/r/:id" element={<RecipeDetail {...props} />} />
       <Route path="/r/:id/edit" element={<RecipeEditor {...props} />} />
       <Route path="/r/:id/cook" element={<CookMode {...props} />} />
+      <Route path="/calendar" element={<CalendarView {...props} />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

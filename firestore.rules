@@ -13,6 +13,16 @@ service cloud.firestore {
         && request.resource.data.steps is list
         && request.resource.data.servings is number;
     }
+    // 作った料理の記録（カレンダー）
+    match /users/{userId}/logs/{logId} {
+      allow read, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.date is string
+        && request.resource.data.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.recipeId is string
+        && request.resource.data.title is string;
+    }
     // それ以外はすべて拒否
     match /{document=**} {
       allow read, write: if false;

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { findTimers } from '../../shared/ingredients.js';
+import { addLog, todayKey } from '../lib/logs.js';
 import { IngredientList } from './RecipeDetail.jsx';
 import { IconClose, IconList, IconTimer } from './Icons.jsx';
 
@@ -64,7 +65,7 @@ function fmt(sec) {
   return h ? `${h}:${String(m).padStart(2, '0')}:${String(r).padStart(2, '0')}` : `${m}:${String(r).padStart(2, '0')}`;
 }
 
-export default function CookMode({ recipes, loading }) {
+export default function CookMode({ uid, recipes, loading, logs = [] }) {
   const { id } = useParams();
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -205,7 +206,16 @@ export default function CookMode({ recipes, loading }) {
       <footer className="cook-nav">
         <button className="btn" onClick={() => go(-1)} disabled={index === 0}>前へ</button>
         {isLast ? (
-          <Link to={`/r/${id}`} className="btn primary">完成！</Link>
+          <button
+            className="btn primary"
+            onClick={async () => {
+              // 今日まだ記録していなければカレンダーに記録
+              if (!logs.some((l) => l.recipeId === id && l.date === todayKey())) await addLog(uid, recipe).catch(() => {});
+              navigate(`/r/${id}`);
+            }}
+          >
+            完成！カレンダーに記録
+          </button>
         ) : (
           <button className="btn primary" onClick={() => go(1)}>次へ</button>
         )}

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { scaleAmount } from '../../shared/scale.js';
 import { deleteRecipe, toggleFavorite } from '../lib/recipes.js';
-import { IconBack, IconClock, IconEdit, IconLink, IconPot, IconStar, IconTrash } from './Icons.jsx';
+import { addLog, deleteLog, todayKey } from '../lib/logs.js';
+import { IconBack, IconCalendar, IconCheck, IconClock, IconEdit, IconLink, IconPot, IconStar, IconTrash } from './Icons.jsx';
 
 export function ServingsStepper({ value, onChange }) {
   return (
@@ -39,7 +40,7 @@ export function IngredientList({ ingredients, factor, checkable }) {
   );
 }
 
-export default function RecipeDetail({ uid, recipes, loading }) {
+export default function RecipeDetail({ uid, recipes, loading, logs = [] }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const recipe = recipes.find((r) => r.id === id);
@@ -57,6 +58,10 @@ export default function RecipeDetail({ uid, recipes, loading }) {
   const base = recipe.servings || 2;
   const current = servings ?? base;
   const factor = current / base;
+
+  const myLogs = logs.filter((l) => l.recipeId === recipe.id);
+  const todayLog = myLogs.find((l) => l.date === todayKey());
+  const last = myLogs.find((l) => l.date !== todayKey()) || myLogs[0];
 
   async function onDelete() {
     if (!confirm(`「${recipe.title}」を削除しますか？`)) return;
@@ -92,8 +97,23 @@ export default function RecipeDetail({ uid, recipes, loading }) {
             {(recipe.tags || []).map((t) => <span key={t} className="tag">{t}</span>)}
           </p>
 
-          {recipe.steps?.length > 0 && (
-            <Link to={`/r/${id}/cook?servings=${current}`} className="btn primary block cook-btn">調理モードで作る</Link>
+          <div className="cook-actions">
+            {recipe.steps?.length > 0 && (
+              <Link to={`/r/${id}/cook?servings=${current}`} className="btn primary cook-btn">調理モードで作る</Link>
+            )}
+            <button
+              className={`btn ${todayLog ? 'done-btn' : ''}`}
+              onClick={() => (todayLog ? deleteLog(uid, todayLog.id) : addLog(uid, recipe))}
+              aria-pressed={!!todayLog}
+            >
+              {todayLog ? <><IconCheck width={18} height={18} />今日作った</> : <><IconCalendar width={18} height={18} />今日作った</>}
+            </button>
+          </div>
+          {myLogs.length > 0 && (
+            <p className="made-count">
+              これまで<strong>{myLogs.length}回</strong>作りました
+              {last && last.date !== todayKey() && <>・前回 {Number(last.date.slice(5, 7))}月{Number(last.date.slice(8))}日</>}
+            </p>
           )}
 
           <section>

@@ -253,3 +253,59 @@ textarea { resize: vertical; line-height: 1.6; }
 .cook-ingredients h2 { font-size: 20px; margin-top: 0; }
 .cook-nav { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; padding: 12px 16px 16px; }
 .cook-nav .btn { min-height: 56px; font-size: 17px; }
+
+/* 料理カレンダー */
+.head-actions { display: flex; gap: 8px; }
+.btn.small { min-height: 36px; padding: 0 14px; font-size: 14px; }
+.cook-actions { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 8px; }
+.cook-actions .cook-btn { margin: 0; }
+.cook-actions .btn:only-child { grid-column: 1 / -1; }
+.done-btn { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.made-count { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+.made-count strong { color: var(--ink); }
+
+.today-btn { color: var(--accent); font-weight: 600; font-size: 15px; }
+.cal-layout { display: grid; gap: 24px; }
+@media (min-width: 900px) {
+  .cal-layout { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 40px; align-items: start; }
+  .cal-day-panel { position: sticky; top: 24px; }
+}
+.cal-head { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.cal-head h1 { font-size: 24px; margin: 0; min-width: 9em; text-align: center; }
+.cal-head .icon-only { font-size: 28px; line-height: 1; color: var(--accent); }
+.cal-summary { text-align: center; color: var(--muted); font-size: 14px; margin: 2px 0 14px; }
+.cal-summary strong { color: var(--accent); font-size: 16px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.cal-week { text-align: center; font-size: 12px; color: var(--muted); padding-bottom: 4px; font-weight: 600; }
+.cal-week.sun, .cal-day.sun { color: #c4473a; }
+.cal-week.sat, .cal-day.sat { color: #3a6fc4; }
+.cal-cell {
+  position: relative; aspect-ratio: 1 / 1.15; min-width: 0;
+  border: 1px solid transparent; border-radius: 10px; background: var(--surface);
+  padding: 3px; display: flex; flex-direction: column; align-items: stretch; gap: 2px;
+}
+.cal-cell.empty { background: transparent; }
+.cal-cell.today { border-color: var(--accent); }
+.cal-cell.selected { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.cal-day { font-size: 12px; font-weight: 600; line-height: 1.2; text-align: left; padding-left: 2px; }
+.cal-cell.today .cal-day { color: var(--accent); }
+.cal-thumb { position: relative; flex: 1; min-height: 0; border-radius: 7px; overflow: hidden; background: var(--accent-soft); display: grid; place-items: center; }
+.cal-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.cal-initial { font-family: var(--serif); font-weight: 700; color: var(--accent); font-size: clamp(13px, 3.5vw, 20px); }
+.cal-more { position: absolute; right: 2px; bottom: 2px; background: rgba(0, 0, 0, .6); color: #fff; font-size: 10px; font-weight: 700; border-radius: 6px; padding: 0 4px; line-height: 1.5; }
+.cal-top { margin-top: 20px; }
+.cal-top h2 { font-size: 16px; margin: 0 0 6px; }
+.cal-top li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: 15px; }
+.cal-top li a { color: var(--ink); }
+.cal-top li span { color: var(--muted); }
+.cal-day-panel h2 { font-size: 18px; margin: 0; }
+.log-list { display: grid; gap: 8px; }
+.log-list li { display: flex; align-items: center; gap: 4px; background: var(--surface); border-radius: 12px; padding: 6px 4px 6px 6px; }
+.log-item { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; background: none; border: none; text-align: left; padding: 0; color: var(--ink); }
+.log-thumb { flex: none; width: 52px; height: 52px; border-radius: 9px; overflow: hidden; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
+.log-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.log-title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+.log-title small { display: block; font-weight: 400; color: var(--muted); }
+.picker-head { display: flex; gap: 6px; align-items: center; margin-bottom: 10px; }
+.picker-head .search { flex: 1; }
+.picker-list { max-height: 420px; overflow-y: auto; }

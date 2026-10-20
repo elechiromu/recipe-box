@@ -13,4 +13,6 @@ export const IconLink = (p) => <svg {...base} {...p}><path d="M10 14a4 4 0 005.7
 export const IconCamera = (p) => <svg {...base} {...p}><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>;
 export const IconClose = (p) => <svg {...base} {...p}><path d="M6 6l12 12M18 6L6 18" /></svg>;
 export const IconList = (p) => <svg {...base} {...p}><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" /></svg>;
+export const IconCalendar = (p) => <svg {...base} {...p}><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4" /></svg>;
+export const IconCheck = (p) => <svg {...base} {...p}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>;
 export const IconTimer = (p) => <svg {...base} {...p}><circle cx="12" cy="13" r="8" /><path d="M12 9v4l2.5 1.5M10 2h4" /></svg>;

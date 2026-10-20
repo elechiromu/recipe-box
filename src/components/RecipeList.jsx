@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase.js';
-import { IconPlus, IconSearch, IconStar, IconClock, IconPot } from './Icons.jsx';
+import { IconPlus, IconSearch, IconStar, IconClock, IconPot, IconCalendar } from './Icons.jsx';
 
 const FILTER_KEY = 'recipe-box:filter';
 
@@ -43,9 +43,14 @@ export default function RecipeList({ recipes, loading }) {
     <main className="page">
       <header className="list-head">
         <h1>レシピ</h1>
-        <Link to="/new" className="btn primary icon-btn" aria-label="レシピを追加">
-          <IconPlus /><span className="hide-sm">追加</span>
-        </Link>
+        <div className="head-actions">
+          <Link to="/calendar" className="btn icon-btn" aria-label="料理カレンダー">
+            <IconCalendar /><span className="hide-sm">カレンダー</span>
+          </Link>
+          <Link to="/new" className="btn primary icon-btn" aria-label="レシピを追加">
+            <IconPlus /><span className="hide-sm">追加</span>
+          </Link>
+        </div>
       </header>
 
       <div className="search">
